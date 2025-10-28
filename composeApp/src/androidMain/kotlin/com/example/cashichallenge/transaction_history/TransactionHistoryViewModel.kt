@@ -1,7 +1,9 @@
 package com.example.cashichallenge.transaction_history
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.cashichallenge.data.local.Cache
 import com.example.cashichallenge.domain.UiDataState
 import com.example.cashichallenge.domain.model.Transaction
 import com.example.cashichallenge.domain.usecase.GetTransactionsUseCase
@@ -11,9 +13,10 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import org.koin.core.logger.Logger
 
 class TransactionHistoryViewModel(
-    private val getTransactionsUseCase: GetTransactionsUseCase
+    private val getTransactionsUseCase: GetTransactionsUseCase,
 ) : ViewModel() {
 
     private val _transactionState = MutableStateFlow(UiDataState<List<Transaction>>())
@@ -26,8 +29,8 @@ class TransactionHistoryViewModel(
             UiDataState()
         )
 
-    private fun fetchTransactions() = viewModelScope.launch {
-        getTransactionsUseCase("user-123")
+    fun fetchTransactions() = viewModelScope.launch {
+        getTransactionsUseCase()
             .stateIn(viewModelScope)
             .onStart {
                 _transactionState.emit(UiDataState(loading = true, error = null))

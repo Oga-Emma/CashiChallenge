@@ -1,10 +1,13 @@
-import org.gradle.kotlin.dsl.implementation
-import org.gradle.kotlin.dsl.invoke
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+
+    alias(libs.plugins.kotest)
+    alias(libs.plugins.ksp)
+
+    id("org.kodein.mock.mockmp") version "2.0.0"
     id("org.jetbrains.kotlin.plugin.serialization") version "2.2.21"
 }
 
@@ -42,14 +45,33 @@ kotlin {
             implementation(libs.ktor.client.logging)
             implementation(libs.ktor.client.content.negotiation)
 
-            implementation("io.github.aakira:napier:2.7.1")
+            implementation(libs.napier)
 
             api(libs.ktor.serialization.kotlinx.json)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
             implementation(libs.ktor.client.mock)
+            implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.kotest.framework.engine)
+            implementation(libs.kotest.assertions.core)
         }
+        jvmTest.dependencies {
+            implementation(libs.kotest.runner.junit5)
+        }
+    }
+}
+
+tasks.named<Test>("jvmTest") {
+    useJUnitPlatform()
+    filter {
+        isFailOnNoMatchingTests = false
+    }
+}
+
+mockmp {
+    onTest {
+        withHelper()
     }
 }
 

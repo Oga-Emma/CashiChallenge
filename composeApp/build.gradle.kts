@@ -44,6 +44,10 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+            implementation(libs.mockk.agent)
+            implementation(libs.mockk.android)
+            implementation(libs.kotlinx.coroutines.test)
+            implementation("app.cash.turbine:turbine:1.2.1")
         }
     }
 }

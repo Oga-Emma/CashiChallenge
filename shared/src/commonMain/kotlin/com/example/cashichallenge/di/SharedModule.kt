@@ -1,5 +1,7 @@
 package com.example.cashichallenge.di
 
+import com.example.cashichallenge.data.local.Cache
+import com.example.cashichallenge.data.local.InMemoryCache
 import com.example.cashichallenge.data.remote.PaymentApi
 import com.example.cashichallenge.data.remote.RemotePaymentApiImpl
 import com.example.cashichallenge.data.repository.FirebaseTransactionDataSource
@@ -56,6 +58,7 @@ val sharedModule = module {
         }
     }
 
+    singleOf(::InMemoryCache) { bind<Cache>() }
     singleOf(::FirebaseTransactionDataSource) { bind<TransactionDataSource>() }
     singleOf(::RemotePaymentApiImpl) { bind<PaymentApi>() }
     singleOf(::GetTransactionsUseCase)

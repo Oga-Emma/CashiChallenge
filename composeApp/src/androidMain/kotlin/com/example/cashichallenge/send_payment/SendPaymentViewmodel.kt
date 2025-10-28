@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cashichallenge.domain.UiRequestState
 import com.example.cashichallenge.domain.common.Resource
+import com.example.cashichallenge.domain.model.dto.SendPaymentDto
 import com.example.cashichallenge.domain.model.request.InitiatePaymentRequest
 import com.example.cashichallenge.domain.usecase.SendPaymentUseCase
 import com.example.cashichallenge.domain.util.Constants
@@ -29,8 +30,7 @@ class SendPaymentViewmodel(private val sendPaymentUseCase: SendPaymentUseCase) :
     }
 
     private fun sendPayment(sendPaymentFormState: SendPaymentFormState) {
-        val request = sendPaymentFormState.toRequest(Constants.USER_ID)
-        sendPaymentUseCase(request).onEach { result ->
+        sendPaymentUseCase(sendPaymentFormState.toDto()).onEach { result ->
             when (result) {
                 is Resource.Loading -> sendPaymentState.emit(UiRequestState(loading = true))
                 is Resource.Error -> {
@@ -77,8 +77,7 @@ data class SendPaymentFormState(
     val currency: String
 )
 
-fun SendPaymentFormState.toRequest(userId: String) = InitiatePaymentRequest(
-    senderId = userId,
+fun SendPaymentFormState.toDto() = SendPaymentDto(
     recipientEmail = recipientEmail,
     amount = amount,
     currency = currency
