@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1018794568207",
+    "project_id": "playground-db49b",
+    "storage_bucket": "playground-db49b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1018794568207:android:696b3c0fca8e5aacb3517a",
+        "android_client_info": {
+          "package_name": "com.example.cashichallenge"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPd-BdlicjoL8UgC2CWZIWQ9Kq_QJgL0Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

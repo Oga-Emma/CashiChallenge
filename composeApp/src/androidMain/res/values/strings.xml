@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">CashiChallenge</string>
+
+    <string name="required">Required</string>
+    <string name="label_transactions">Transactions</string>
+    <string name="label_transfer">Transfer Money</string>
+
+    <string name="label_recipient">Recipient Email</string>
+    <string name="label_amount">Amount</string>
+    <string name="label_currency">Currency</string>
+
+    <!-- Submit Button -->
+    <string name="btn_send_payment">Send payment</string>
+    <string name="btn_cancel">Cancel</string>
+
+    <string name="btn_view_send_payment">Send Payment</string>
+    <string name="btn_view_transactions">View Transactions</string>
+</resources>
