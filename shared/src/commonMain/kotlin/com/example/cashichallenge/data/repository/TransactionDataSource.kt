@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.map
 
 interface TransactionDataSource {
     fun getTransactions(userId: String): Flow<List<Transaction>>
+    suspend fun saveTransaction(data: Transaction)
 }
 
 class FirebaseTransactionDataSource(val db: FirebaseFirestore) : TransactionDataSource {
@@ -17,5 +18,9 @@ class FirebaseTransactionDataSource(val db: FirebaseFirestore) : TransactionData
             .snapshots.map { querySnapshot ->
                 querySnapshot.documents.map { document -> document.data<Transaction>() }
             }
+    }
+
+    override suspend fun saveTransaction(data: Transaction) {
+        db.collection(Constants.FIRESTORE_TRANSACTIONS).document(data.id).set(data)
     }
 }

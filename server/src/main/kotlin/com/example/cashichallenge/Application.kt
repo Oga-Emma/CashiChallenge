@@ -8,16 +8,17 @@ import com.example.cashichallenge.repository.FirebaseTransactionRepository
 import com.example.cashichallenge.repository.TransactionRepository
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.firebase.FirebaseOptions
-import com.google.firebase.cloud.FirestoreClient
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
-import io.ktor.server.application.*
-import io.ktor.server.engine.*
-import io.ktor.server.netty.*
+import io.ktor.server.application.Application
+import io.ktor.server.application.install
+import io.ktor.server.engine.embeddedServer
+import io.ktor.server.netty.Netty
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
-import io.ktor.server.routing.*
+import io.ktor.server.routing.post
+import io.ktor.server.routing.routing
 
 fun main() {
     embeddedServer(
@@ -30,9 +31,9 @@ fun main() {
 }
 
 fun Application.module() {
-    initializeFirebase()
+//    initializeFirebase()
     val transactionRepository: TransactionRepository = FirebaseTransactionRepository(
-        FirestoreClient.getFirestore()
+//        FirestoreClient.getFirestore()
     )
     val transactionBusiness = TransactionBusiness(transactionRepository)
 

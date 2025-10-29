@@ -48,16 +48,17 @@ kotlin {
             implementation(libs.napier)
 
             api(libs.ktor.serialization.kotlinx.json)
+            implementation("net.orandja.kt:either:2.0.2")
         }
         commonTest.dependencies {
-            implementation(libs.kotlin.test)
+//            implementation(libs.kotlin.test)
             implementation(libs.ktor.client.mock)
             implementation(libs.kotlinx.coroutines.test)
             implementation(libs.kotest.framework.engine)
             implementation(libs.kotest.assertions.core)
         }
         jvmTest.dependencies {
-            implementation(libs.kotest.runner.junit5)
+//            implementation(libs.kotest.runner.junit5)
         }
     }
 }

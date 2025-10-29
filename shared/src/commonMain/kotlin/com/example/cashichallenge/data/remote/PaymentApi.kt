@@ -15,7 +15,7 @@ interface PaymentApi {
     suspend fun initiatePayment(request: InitiatePaymentRequest): ApiResponse<Transaction?>
 }
 
-class RemotePaymentApiImpl(
+class PaymentApiImpl(
     val client: HttpClient
 ) : PaymentApi {
     override suspend fun initiatePayment(request: InitiatePaymentRequest): ApiResponse<Transaction?> {

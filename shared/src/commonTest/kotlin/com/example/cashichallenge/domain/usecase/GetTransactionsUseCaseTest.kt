@@ -1,5 +1,7 @@
 package com.example.cashichallenge.domain.usecase
 
+import com.example.cashichallenge.data.local.Cache
+import com.example.cashichallenge.data.local.MockCache
 import com.example.cashichallenge.data.repository.MockTransactionDataSource
 import com.example.cashichallenge.domain.model.Transaction
 import kotlinx.coroutines.flow.first
@@ -11,12 +13,15 @@ import kotlin.test.assertEquals
 class GetTransactionsUseCaseTest {
 
     private lateinit var transactionDataSource: MockTransactionDataSource
+    private lateinit var cache: Cache
     private lateinit var getTransactionsUseCase: GetTransactionsUseCase
 
     @BeforeTest
     fun setUp() {
         transactionDataSource = MockTransactionDataSource()
-        getTransactionsUseCase = GetTransactionsUseCase(transactionDataSource)
+        cache = MockCache()
+
+        getTransactionsUseCase = GetTransactionsUseCase(transactionDataSource, cache)
     }
 
     @Test
@@ -33,7 +38,7 @@ class GetTransactionsUseCaseTest {
         transactionDataSource.addTransaction(transaction)
 
         // When
-        val result = getTransactionsUseCase(transaction.senderId)
+        val result = getTransactionsUseCase()
 
         // Then
         assertEquals(listOf(transaction), result.first())
