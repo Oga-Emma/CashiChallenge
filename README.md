@@ -56,11 +56,8 @@ The project includes a suite of tests to ensure code quality and correctness.
 
 Unit tests are located in `shared/src/commonTest` and `androidApp/src/test`. They test individual components like UseCases and ViewModels.
 
-- **To run all unit tests:**
-  ```bash
-  ./gradlew test
-  ```
-- **To run a specific test:** Open the test file in Android Studio and click the green play icon in the gutter next to the class or test function name.
+- **To run all unit tests: Open the test file in Android Studio and right click on the test package the click run as show in the attached video
+- Please Note: Automation tests require Appium configure and running
 
 ### UI / Instrumentation Tests
 
@@ -74,18 +71,3 @@ UI tests are located in `androidApp/src/androidTest`. They test the UI component
   ```
 - **To run a specific test:** Open the test file (e.g., `MainActivityTest.kt`) and run it from the gutter icon.
 
-### BDD (Behavior-Driven Development) Tests
-
-The project is set up with Cucumber for BDD tests. These tests are also part of the instrumentation tests.
-
-- **To run BDD tests:** The `connectedAndroidTest` Gradle task will also execute your Cucumber feature files. Make sure you have a test runner configured correctly in your `build.gradle.kts` file.
-
-### Performance Tests
-
-*(Note: No performance tests are currently implemented in this project.)*
-
-If you were to add performance tests (e.g., using Jetpack Macrobenchmark), you would typically run them from a separate module using a dedicated Gradle command:
-
-```bash
-./gradlew :macrobenchmark:connectedAndroidTest
-```

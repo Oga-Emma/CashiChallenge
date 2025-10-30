@@ -76,44 +76,6 @@ class TransactionHistoryViewModelTest {
         }
     }
 
-//
-//    @Test
-//    fun `fetchTransactions failure - emits loading and error states`() = runTest {
-//
-//        coEvery { getTransactionsUseCase() } returns flow {
-//            throw RuntimeException("Database error")
-//        }
-//
-//        viewModel.transactionState.test {
-//            val firstState = awaitItem()
-//            assertEquals(UiDataState(), firstState)
-//
-//            val secondState = awaitItem()
-//            assertEquals(UiDataState(loading = true, error = null), secondState)
-//
-//            val finalState = awaitItem()
-//            assertEquals(UiDataState(loading = false, error = "Failed to fetch transactions"), finalState)
-//
-//            expectNoEvents()
-//        }
-//
-//       /* val collectedStates = mutableListOf<UiDataState<List<Transaction>>>()
-//
-//        val job = backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) {
-//            viewModel.transactionState.toList(collectedStates)
-//        }
-//
-//        runCurrent()
-//        println(collectedStates)
-//
-//        assertEquals(3, collectedStates.size)
-//        assertEquals(UiDataState(), collectedStates[0])
-//        assertEquals(UiDataState(loading = true, error = null), collectedStates[1])
-//        assertEquals(UiDataState(loading = false, error = "Failed to fetch transactions"), collectedStates[2])
-//
-//        job.cancel()*/
-//    }
-
     @After
     fun tearDown() {
         Dispatchers.resetMain()

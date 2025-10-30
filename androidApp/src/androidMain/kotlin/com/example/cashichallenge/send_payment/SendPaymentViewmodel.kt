@@ -32,6 +32,14 @@ class SendPaymentViewmodel (
     }
 
     private fun sendPayment(sendPaymentDto: SendPaymentDto) {
+        viewModelScope.launch {
+            sendPaymentState.emit(
+                _sendPaymentState.value.copy(
+                    isLoading = true,
+                )
+            )
+        }
+
         val sendPaymentFormState = validatePaymentFormUseCase(sendPaymentDto)
 
         when (sendPaymentFormState.isValid) {
