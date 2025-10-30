@@ -19,3 +19,7 @@ data class Transaction (
 enum class TransactionStatus {
     PENDING, COMPLETED, CANCELED, FAILED
 }
+
+fun TransactionStatus.readableName(): String {
+    return this.name.substring(0, 1) + this.name.substring(1).lowercase()
+}

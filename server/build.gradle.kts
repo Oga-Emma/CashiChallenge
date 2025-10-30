@@ -25,6 +25,8 @@ dependencies {
 
     implementation(libs.jvm.firebase.admin)
 
+    testImplementation(libs.ktor.serialization.kotlinx.json)
+    testImplementation(libs.ktor.client.content.negotiation)
     testImplementation(libs.ktor.serverTestHost)
     testImplementation(libs.kotlin.testJunit)
 }

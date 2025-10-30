@@ -11,49 +11,37 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 
-data class TextInputState(
-    val value: String = "",
-    val errorMsg: String = "",
-    val showError: Boolean = false
-) {
-    val isError: Boolean
-        get() = showError && errorMsg.isNotBlank()
-}
-
 @Composable
 fun OutlineTextFieldWithState(
     modifier: Modifier = Modifier,
     label: String,
-    state: TextInputState,
+    value: String,
+    error: String,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     keyboardType: KeyboardType = KeyboardType.Text,
-    onValueChange: (TextInputState) -> Unit,
+    trailingIcon: @Composable (() -> Unit)? = null,
+    onValueChange: (String) -> Unit,
 ) {
+    val hasError = error.isNotBlank()
 
     OutlinedTextField(
         modifier = modifier,
-        value = state.value,
-        onValueChange = {
-            onValueChange(
-                state.copy(
-                    value = it,
-                    showError = false,
-                )
-            )
-        },
+        value = value,
+        onValueChange = { onValueChange(it) },
         label = {
             Text(text = label, style = MaterialTheme.typography.bodyMedium)
         },
+        trailingIcon = trailingIcon,
         keyboardOptions = KeyboardOptions(
             keyboardType = keyboardType
         ),
         singleLine = true,
         keyboardActions = keyboardActions,
-        isError = state.isError,
+        isError = hasError,
         supportingText = {
-            if (state.isError) {
+            if (hasError) {
                 Text(
-                    text = state.errorMsg, modifier = Modifier.fillMaxWidth(),
+                    text = error, modifier = Modifier.fillMaxWidth(),
                     style = MaterialTheme.typography.bodySmall
                 )
             }
@@ -66,7 +54,8 @@ fun OutlineTextFieldWithState(
 private fun PreviewOutlineTextFieldWithStateNormal() {
     OutlineTextFieldWithState(
         label = "Test",
-        state = TextInputState(),
+        value = "",
+        error = "",
         onValueChange = {
 
         }
@@ -78,10 +67,8 @@ private fun PreviewOutlineTextFieldWithStateNormal() {
 private fun PreviewOutlineTextFieldWithStateError() {
     OutlineTextFieldWithState(
         label = "Test",
-        state = TextInputState(
-            showError = true,
-            errorMsg = "Error message"
-        ),
+        value = "",
+        error = "Error message",
         onValueChange = {
 
         }

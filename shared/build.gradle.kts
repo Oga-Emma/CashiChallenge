@@ -7,8 +7,9 @@ plugins {
     alias(libs.plugins.kotest)
     alias(libs.plugins.ksp)
 
-    id("org.kodein.mock.mockmp") version "2.0.0"
     id("org.jetbrains.kotlin.plugin.serialization") version "2.2.21"
+    id("org.jetbrains.kotlinx.kover") version "0.9.3"
+    id("dev.mokkery") version "2.10.2"
 }
 
 kotlin {
@@ -48,17 +49,27 @@ kotlin {
             implementation(libs.napier)
 
             api(libs.ktor.serialization.kotlinx.json)
-            implementation("net.orandja.kt:either:2.0.2")
+            implementation(libs.orandja.either)
         }
         commonTest.dependencies {
+//
+//            implementation(kotlin("test-junit5"))
+
+//            implementation(libs.ktor.client.mock)
 //            implementation(libs.kotlin.test)
-            implementation(libs.ktor.client.mock)
+            implementation("org.jetbrains.kotlin:kotlin-test:2.2.20")
             implementation(libs.kotlinx.coroutines.test)
+            implementation("io.insert-koin:koin-test:4.0.0")
             implementation(libs.kotest.framework.engine)
             implementation(libs.kotest.assertions.core)
+
+            implementation(libs.ktor.client.mock)
         }
         jvmTest.dependencies {
 //            implementation(libs.kotest.runner.junit5)
+        }
+        androidUnitTest.dependencies {
+            implementation(libs.kotest.runner.junit5)
         }
     }
 }
@@ -67,12 +78,6 @@ tasks.named<Test>("jvmTest") {
     useJUnitPlatform()
     filter {
         isFailOnNoMatchingTests = false
-    }
-}
-
-mockmp {
-    onTest {
-        withHelper()
     }
 }
 

@@ -1,4 +1,4 @@
-package com.example.cashichallenge.domain
+package com.example.cashichallenge.core.model
 
 import androidx.compose.runtime.Immutable
 

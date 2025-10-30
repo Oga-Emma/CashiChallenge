@@ -28,14 +28,14 @@ class GetTransactionsUseCaseTest {
     fun `invoke should return flow of transactions from data source`() = runTest {
         // Given
         val transaction = Transaction(
-            senderId = "1123",
+            senderId = cache.getUserId(),
             recipientEmail = "test@mail.com",
             amount = 200.0,
             currency = "NGN",
             timestamp = 1761641948
         )
 
-        transactionDataSource.addTransaction(transaction)
+        transactionDataSource.saveTransaction(transaction)
 
         // When
         val result = getTransactionsUseCase()

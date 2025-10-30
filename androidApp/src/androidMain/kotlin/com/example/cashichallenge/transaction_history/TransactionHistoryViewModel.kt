@@ -2,7 +2,7 @@ package com.example.cashichallenge.transaction_history
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.cashichallenge.domain.UiDataState
+import com.example.cashichallenge.core.model.UiDataState
 import com.example.cashichallenge.domain.model.Transaction
 import com.example.cashichallenge.domain.usecase.GetTransactionsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -41,7 +41,7 @@ class TransactionHistoryViewModel(
             .collect {
                 _transactionState.emit(
                     UiDataState(
-                        data = it,
+                        data = it.sortedByDescending { it.timestamp },
                         error = null,
                         loading = false,
                     )

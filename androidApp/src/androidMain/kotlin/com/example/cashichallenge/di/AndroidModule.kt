@@ -9,7 +9,7 @@ import org.koin.dsl.module
 
 val provideVideModel = module {
     viewModel { TransactionHistoryViewModel(get()) }
-    viewModel { SendPaymentViewmodel(get()) }
+    viewModel { SendPaymentViewmodel(get(), get()) }
 }
 
 val androidModule = listOf(

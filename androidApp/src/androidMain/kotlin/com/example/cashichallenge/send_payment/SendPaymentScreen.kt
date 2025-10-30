@@ -1,7 +1,7 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.example.cashichallenge.send_payment
 
-import android.util.Patterns
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,11 +16,15 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Scaffold
@@ -34,23 +38,23 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.cashichallenge.R
+import com.example.cashichallenge.core.util.TestTags
 import com.example.cashichallenge.coreui.OutlineTextFieldWithState
-import com.example.cashichallenge.coreui.TextInputState
-import com.example.cashichallenge.domain.UiRequestState
+import com.example.cashichallenge.domain.model.dto.SendPaymentDto
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SendPaymentScreen(
     modifier: Modifier = Modifier,
-    onSendPaymentClick: (SendPaymentFormState) -> Unit,
+    onSendPaymentClick: (SendPaymentDto) -> Unit,
     onBackClick: () -> Unit,
-    state: UiRequestState
+    state: SendPaymentScreenState
 ) {
     Scaffold(
         topBar = {
@@ -75,9 +79,9 @@ fun SendPaymentScreen(
     ) { padding ->
         Column(modifier = modifier.padding(padding)) {
             SendPaymentForm(
+                state = state,
                 onSendPaymentClick = onSendPaymentClick,
                 onCancelClick = onBackClick,
-                isLoading = state.loading
             )
         }
     }
@@ -86,60 +90,87 @@ fun SendPaymentScreen(
 @Composable
 fun SendPaymentForm(
     modifier: Modifier = Modifier,
-    isLoading: Boolean,
-    onSendPaymentClick: (SendPaymentFormState) -> Unit,
-    onCancelClick: () -> Unit
+    state: SendPaymentScreenState,
+    onSendPaymentClick: (SendPaymentDto) -> Unit,
+    onCancelClick: () -> Unit,
 ) {
-    val context = LocalContext.current
+    var state by remember(state) { mutableStateOf(state) }
+    var recipientState by remember { mutableStateOf("") }
+    var amountState by remember { mutableStateOf("") }
 
-    var recipientState by remember {
-        mutableStateOf(
-            TextInputState(
-                errorMsg = "Please enter a valid email"
-            )
-        )
-    }
-    var amountState by remember {
-        mutableStateOf(
-            TextInputState(
-                errorMsg = "Please enter a valid amount"
-            )
-        )
-    }
-    var currencyState by remember {
-        mutableStateOf(
-            TextInputState(
-                errorMsg = "Please select a currency"
-            )
-        )
-    }
+    val options = listOf("USD", "EUR", "GBP", "JPY", "CHF", "CAD", "AUD", "NZD")
+    var expanded by remember { mutableStateOf(false) }
+    var currencyState by remember { mutableStateOf(options[0]) }
 
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(24.dp)
             .verticalScroll(rememberScrollState())
     ) {
         Spacer(modifier = Modifier.height(56.dp))
         OutlineTextFieldWithState(
             modifier = Modifier.fillMaxWidth(),
             label = stringResource(R.string.label_recipient),
-            state = recipientState,
-            onValueChange = { recipientState = it }
+            error = state.formState.recipientError,
+            value = recipientState,
+            onValueChange = {
+                recipientState = it
+                state = state.copy(formState = state.formState.copy(recipientError = ""))
+            }
         )
         OutlineTextFieldWithState(
             modifier = Modifier.fillMaxWidth(),
             label = stringResource(R.string.label_amount),
             keyboardType = KeyboardType.Number,
-            state = amountState,
-            onValueChange = { amountState = it }
+            error = state.formState.amountError,
+            value = amountState,
+            onValueChange = {
+                amountState = it
+                state = state.copy(formState = state.formState.copy(amountError = ""))
+            }
         )
-        OutlineTextFieldWithState(
-            modifier = Modifier.fillMaxWidth(),
-            label = stringResource(R.string.label_currency),
-            state = currencyState,
-            onValueChange = { currencyState = it }
-        )
+
+        ExposedDropdownMenuBox(
+            expanded = expanded,
+            onExpandedChange = {
+                expanded = !expanded
+            }
+        ) {
+            OutlineTextFieldWithState(
+                modifier = Modifier.menuAnchor(type = MenuAnchorType.PrimaryNotEditable, enabled = true).fillMaxWidth(),
+                label = stringResource(R.string.label_currency),
+                error = state.formState.currencyError,
+                value = currencyState,
+                trailingIcon = {
+                    ExposedDropdownMenuDefaults.TrailingIcon(
+                        expanded = expanded
+                    )
+                },
+                onValueChange = {
+                    state = state.copy(formState = state.formState.copy(currencyError = ""))
+                }
+            )
+            ExposedDropdownMenu(
+                expanded = expanded,
+                onDismissRequest = {
+                    expanded = false
+                }
+            ) {
+                options.forEach { selectionOption ->
+                    DropdownMenuItem(
+                        modifier = Modifier.testTag("${TestTags.DROP_DOWN_ITEM}-$selectionOption"),
+                        onClick = {
+                            currencyState = selectionOption
+                            expanded = false
+                        },
+                        text = {
+                            Text(text = selectionOption)
+                        }
+                    )
+                }
+            }
+        }
         Spacer(modifier = Modifier.height(24.dp))
         Row(
             horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -153,43 +184,17 @@ fun SendPaymentForm(
             FilledTonalButton(
                 modifier = Modifier.weight(1f),
                 onClick = {
-                    if (recipientState.value.isBlank() || Patterns.EMAIL_ADDRESS.matcher(
-                            recipientState.value
-                        ).matches().not()
-                    ) {
-                        recipientState = recipientState.copy(showError = true)
-                    }
-
-                    val amount = amountState.value.toDoubleOrNull()
-                    if (amount == null) {
-                        amountState = amountState.copy(showError = true)
-                    }
-
-                    if (currencyState.value.isBlank()) {
-                        currencyState = currencyState.copy(showError = true)
-                    }
-
-                    if (recipientState.isError || amountState.isError || currencyState.isError) {
-                        Toast.makeText(
-                            context,
-                            "Please fix the errors",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else {
-                        onSendPaymentClick(
-                            SendPaymentFormState(
-                                recipientEmail = recipientState.value,
-                                amount = amount!!,
-                                currency = currencyState.value
-                            )
+                    onSendPaymentClick(
+                        SendPaymentDto(
+                            recipientEmail = recipientState,
+                            amount = amountState.toDoubleOrNull(),
+                            currency = currencyState
                         )
-                    }
+                    )
                 }
             ) {
-                if (isLoading) {
-                    Box(
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
+                if (state.isLoading) {
+                    Box(modifier = Modifier.fillMaxWidth()) {
                         CircularProgressIndicator(
                             modifier = modifier
                                 .size(16.dp)
@@ -211,6 +216,6 @@ private fun PreviewSendPaymentScreen() {
     SendPaymentScreen(
         onSendPaymentClick = {},
         onBackClick = {},
-        state = UiRequestState(),
+        state = SendPaymentScreenState(),
     )
 }

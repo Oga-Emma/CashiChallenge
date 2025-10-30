@@ -1,54 +1,91 @@
-This is a Kotlin Multiplatform project targeting Android, iOS, Server.
+# Cashi Challenge
 
-* [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
-    folder is the appropriate location.
+This project is a simple Android application built with Kotlin Multiplatform (KMP) that demonstrates a basic payment flow, allowing users to send payments and view their transaction history.
 
-* [/iosApp](./iosApp/iosApp) contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+## Architecture
 
-* [/server](./server/src/main/kotlin) is for the Ktor server application.
+The project follows a modern Android architecture, leveraging Kotlin Multiplatform to share business logic between potential platforms (like iOS) and a clean, scalable structure for the Android-specific code.
 
-* [/shared](./shared/src) is for the code that will be shared between all targets in the project.
-  The most important subfolder is [commonMain](./shared/src/commonMain/kotlin). If preferred, you
-  can add code to the platform-specific folders here too.
+### Kotlin Multiplatform (KMP)
 
-### Build and Run Android Application
+Kotlin Multiplatform allows for sharing code across different platforms, such as Android, iOS, and even web or desktop. In this project, the KMP architecture is structured as follows:
 
-To build and run the development version of the Android app, use the run configuration from the run widget
-in your IDE’s toolbar or build it directly from the terminal:
-- on macOS/Linux
-  ```shell
-  ./gradlew :composeApp:assembleDebug
+- **`shared` module:** This is the core of the KMP architecture. It contains platform-independent code, including:
+    - **Business Logic:** Use cases and domain models that define the core functionality of the app.
+    - **Data Layer:** Repositories and data sources that handle data operations.
+    - **Networking:** Network clients for making API calls.
+- **`androidApp` module:** This module contains the Android-specific implementation, including:
+    - **UI:** All Jetpack Compose screens, ViewModels, and navigation.
+    - **Dependency Injection:** Koin setup for Android-specific dependencies.
+    - **Platform-Specific APIs:** Any code that requires the Android SDK.
+
+The primary benefit of this approach is code reusability. The entire business and data logic in the `shared` module can be compiled and used on other platforms like iOS without any changes, significantly reducing development time and ensuring consistency.
+
+### MVVM (Model-View-ViewModel)
+
+The UI in the `androidApp` module is built using the MVVM pattern:
+- **View:** The Jetpack Compose screens (`HomeScreen`, `SendPaymentScreen`, `TransactionHistoryScreen`,).
+- **ViewModel:** The ViewModels (`SendPaymentViewModel`, `TransactionHistoryViewModel`) that hold the UI state and handle user actions.
+- **Model:** The data classes and domain models from the `shared` module.
+
+### Dependency Injection
+
+Dependency injection is managed using **Koin**, which helps to decouple components and makes the codebase more modular and testable.
+
+## Project Setup
+
+1.  **Clone the repository:**
+    ```bash
+    git clone <repository-url>
+    ```
+2.  **Open in Android Studio:** Open the cloned project in the latest stable version of Android Studio.
+3**Sync Gradle:** Let Android Studio sync the Gradle files.
+
+## How to Run the App
+
+You can run the application on an emulator or a physical device:
+1.  Select the **`androidApp`** run configuration in Android Studio.
+2.  Choose your target device from the dropdown menu.
+3.  Click the **Run** button.
+
+## How to Run Tests
+
+The project includes a suite of tests to ensure code quality and correctness.
+
+### Unit Tests
+
+Unit tests are located in `shared/src/commonTest` and `androidApp/src/test`. They test individual components like UseCases and ViewModels.
+
+- **To run all unit tests:**
+  ```bash
+  ./gradlew test
   ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:assembleDebug
+- **To run a specific test:** Open the test file in Android Studio and click the green play icon in the gutter next to the class or test function name.
+
+### UI / Instrumentation Tests
+
+UI tests are located in `androidApp/src/androidTest`. They test the UI components and user flows.
+
+- **To run all UI tests:**
+- First start a device emulator
+- Then run the following:
+  ```bash
+  ./gradlew connectedAndroidTest
   ```
+- **To run a specific test:** Open the test file (e.g., `MainActivityTest.kt`) and run it from the gutter icon.
 
-### Build and Run Server
+### BDD (Behavior-Driven Development) Tests
 
-To build and run the development version of the server, use the run configuration from the run widget
-in your IDE’s toolbar or run it directly from the terminal:
-- on macOS/Linux
-  ```shell
-  ./gradlew :server:run
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :server:run
-  ```
+The project is set up with Cucumber for BDD tests. These tests are also part of the instrumentation tests.
 
-### Build and Run iOS Application
+- **To run BDD tests:** The `connectedAndroidTest` Gradle task will also execute your Cucumber feature files. Make sure you have a test runner configured correctly in your `build.gradle.kts` file.
 
-To build and run the development version of the iOS app, use the run configuration from the run widget
-in your IDE’s toolbar or open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+### Performance Tests
 
----
+*(Note: No performance tests are currently implemented in this project.)*
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+If you were to add performance tests (e.g., using Jetpack Macrobenchmark), you would typically run them from a separate module using a dedicated Gradle command:
+
+```bash
+./gradlew :macrobenchmark:connectedAndroidTest
+```

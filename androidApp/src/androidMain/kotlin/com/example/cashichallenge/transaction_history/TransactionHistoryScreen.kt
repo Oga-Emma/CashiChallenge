@@ -1,5 +1,6 @@
 package com.example.cashichallenge.transaction_history
 
+import android.icu.text.DateFormat
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -32,14 +33,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.cashichallenge.R
 import com.example.cashichallenge.core.util.TestTags
 import com.example.cashichallenge.coreui.EmptyState
 import com.example.cashichallenge.coreui.ErrorState
-import com.example.cashichallenge.domain.UiDataState
+import com.example.cashichallenge.core.model.UiDataState
 import com.example.cashichallenge.domain.model.Transaction
+import com.example.cashichallenge.domain.model.readableName
+import com.example.cashichallenge.util.formatCurrency
+import com.example.cashichallenge.util.getDateTime
+import java.text.SimpleDateFormat
+import java.util.Date
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -165,18 +172,29 @@ fun TransactionListItem(
         ) {
             Text(
                 text = transaction.recipientEmail,
-                style = MaterialTheme.typography.titleSmall
+                style = MaterialTheme.typography.titleSmall,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
             Text(
-                text = "Pending",
+                text = transaction.status.readableName(),
                 style = MaterialTheme.typography.bodySmall.copy(
                     color = Color.Gray
                 )
             )
         }
-        Text(
-            "${transaction.amount} ${transaction.currency}"
-        )
+        Column {
+            Text(
+                formatCurrency(transaction.amount, transaction.currency)
+            )
+            Text(
+                text = getDateTime(transaction.timestamp) ?: "N/A",
+                style = MaterialTheme.typography.bodySmall.copy(
+                    color = Color.Gray
+                )
+            )
+        }
+
         Icon(
             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
             contentDescription = "",
@@ -184,7 +202,6 @@ fun TransactionListItem(
         )
     }
 }
-
 
 @Preview
 @Composable

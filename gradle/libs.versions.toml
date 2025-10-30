@@ -10,12 +10,14 @@ androidx-espresso = "3.7.0"
 androidx-lifecycle = "2.9.4"
 androidx-testExt = "1.3.0"
 composeMultiplatform = "1.9.0"
+easyRandomCore = "5.0.0"
+either = "2.0.2"
 junit = "4.13.2"
 kotestFrameworkEngine = "6.0.4"
 kotlin = "2.2.20"
 
 kotest = "6.0.4"
-ksp = "2.2.10-2.0.2"
+ksp = "2.2.21-2.0.4"
 
 kotlinxCoroutinesCore = "1.10.2"
 ktor = "3.3.0"
@@ -53,6 +55,8 @@ androidx-lifecycle-viewmodelCompose = { module = "org.jetbrains.androidx.lifecyc
 androidx-lifecycle-runtimeCompose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 
 app-turbine = { module = "app.cash.turbine:turbine", version.ref = "turbineVersion" }
+easy-random-core = { module = "org.jeasy:easy-random-core", version.ref = "easyRandomCore" }
+orandja-either = { module = "net.orandja.kt:either", version.ref = "either" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 junit = { module = "junit:junit", version.ref = "junit" }
 kotlin-testJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }

@@ -1,7 +1,7 @@
 package com.example.cashichallenge.transaction_history
 
 import app.cash.turbine.test
-import com.example.cashichallenge.domain.UiDataState
+import com.example.cashichallenge.core.model.UiDataState
 import com.example.cashichallenge.domain.model.Transaction
 import com.example.cashichallenge.domain.usecase.GetTransactionsUseCase
 import io.mockk.coEvery

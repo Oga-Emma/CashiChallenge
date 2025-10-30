@@ -19,7 +19,7 @@ class PaymentRepositoryImpl(
 ) : PaymentRepository {
     override suspend fun initiatePayment(request: InitiatePaymentRequest): Either<ErrorResponse, Transaction> {
         try {
-            val response = paymentApi.initiatePayment(request)
+            val response = paymentApi.sendPayment(request)
 
             if (response.success && response.data != null) {
                 transactionDataSource.saveTransaction(response.data)
@@ -28,7 +28,7 @@ class PaymentRepositoryImpl(
                 return Left(
                     ErrorResponse(
                         message = response.message,
-                        code = ErrorCodes.UNKNOWN_ERROR
+                        code = ErrorCodes.SERVER_ERROR
                     )
                 )
             }

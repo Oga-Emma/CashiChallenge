@@ -12,13 +12,13 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 
 interface PaymentApi {
-    suspend fun initiatePayment(request: InitiatePaymentRequest): ApiResponse<Transaction?>
+    suspend fun sendPayment(request: InitiatePaymentRequest): ApiResponse<Transaction?>
 }
 
 class PaymentApiImpl(
     val client: HttpClient
 ) : PaymentApi {
-    override suspend fun initiatePayment(request: InitiatePaymentRequest): ApiResponse<Transaction?> {
+    override suspend fun sendPayment(request: InitiatePaymentRequest): ApiResponse<Transaction?> {
         val response: HttpResponse = client.post("/payments") {
             contentType(ContentType.Application.Json)
             setBody(request)
@@ -33,6 +33,4 @@ class PaymentApiImpl(
             )
         }
     }
-
-
 }

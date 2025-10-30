@@ -11,7 +11,7 @@ class MockTransactionDataSource : TransactionDataSource {
         return flowOf(transactions.filter { it.senderId == userId })
     }
 
-    fun addTransaction(transaction: Transaction) {
-        transactions.add(transaction)
+    override suspend fun saveTransaction(data: Transaction) {
+        transactions.add(data)
     }
 }

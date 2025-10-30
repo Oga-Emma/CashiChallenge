@@ -6,7 +6,7 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.junit4.createComposeRule
 import com.example.cashichallenge.MainActivity
 import com.example.cashichallenge.core.util.TestTags
-import com.example.cashichallenge.domain.UiDataState
+import com.example.cashichallenge.core.model.UiDataState
 import com.example.cashichallenge.domain.model.Transaction
 import org.junit.Rule
 import org.junit.Test
@@ -15,9 +15,6 @@ class TransactionHistoryScreenTest {
 
     @get:Rule
     val rule = createComposeRule()
-
-    @get:Rule
-    val activityRule = createAndroidComposeRule<MainActivity>()
 
     val loadingIndicator = hasTestTag(TestTags.LOADING_INDICATOR)
     val emptyState = hasText("No Transactions")

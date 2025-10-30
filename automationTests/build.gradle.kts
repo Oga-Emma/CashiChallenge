@@ -30,7 +30,7 @@ dependencies {
 
     testImplementation("org.seleniumhq.selenium:selenium-java:4.38.0")
     testImplementation("io.appium:java-client:10.0.0")
-    testImplementation("org.jeasy:easy-random-core:5.0.0")
+    testImplementation(libs.easy.random.core)
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.11.0")
 
