@@ -42,17 +42,15 @@ class SendPaymentViewmodel (
 
         val sendPaymentFormState = validatePaymentFormUseCase(sendPaymentDto)
 
-        viewModelScope.launch {
-            sendPaymentState.emit(
-                _sendPaymentState.value.copy(
-                    formState = sendPaymentFormState,
-                    isLoading = false,
-                )
-            )
-        }
-
         when (sendPaymentFormState.isValid) {
             false -> viewModelScope.launch {
+                sendPaymentState.emit(
+                    _sendPaymentState.value.copy(
+                        formState = sendPaymentFormState,
+                        isLoading = false,
+                    )
+                )
+
                 sendEvent(
                     SendPaymentEvent.ShowError(
                         "Please fix the validation errors"
@@ -65,6 +63,7 @@ class SendPaymentViewmodel (
                 when (result) {
                     is Resource.Loading -> sendPaymentState.emit(
                         _sendPaymentState.value.copy(
+                            formState = sendPaymentFormState,
                             isLoading = true
                         )
                     )
@@ -72,6 +71,7 @@ class SendPaymentViewmodel (
                     is Resource.Error -> {
                         sendPaymentState.emit(
                             _sendPaymentState.value.copy(
+                                formState = sendPaymentFormState,
                                 isLoading = false
                             )
                         )
@@ -86,6 +86,7 @@ class SendPaymentViewmodel (
                     is Resource.Success -> {
                         sendPaymentState.emit(
                             _sendPaymentState.value.copy(
+                                formState = sendPaymentFormState,
                                 isLoading = false
                             )
                         )
