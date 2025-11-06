@@ -3,6 +3,7 @@ package com.example.cashichallenge.data.remote
 import com.example.cashichallenge.domain.model.Transaction
 import com.example.cashichallenge.domain.model.TransactionStatus
 import com.example.cashichallenge.domain.model.reponse.ApiResponse
+import com.example.cashichallenge.domain.model.request.Currency
 import com.example.cashichallenge.domain.model.request.InitiatePaymentRequest
 import com.example.cashichallenge.factory.HttpClientFactory
 import io.ktor.client.HttpClient
@@ -52,7 +53,7 @@ class PaymentApiImplTest {
                 id = "8a05a3d5-c73d-4b1f-8e79-f674828606e1",
                 amount = 100.0,
                 senderId = "jane.doe@example.com",
-                currency = "USD",
+                currency = Currency.USD,
                 timestamp = 1761653484001,
                 status = TransactionStatus.PENDING
             )
@@ -64,7 +65,7 @@ class PaymentApiImplTest {
             senderId = "user1",
             recipientEmail = "test@test.com",
             amount = 100.0,
-            currency = "NGN"
+            currency = Currency.NGN
         )
 
         // When
@@ -88,7 +89,7 @@ class PaymentApiImplTest {
             senderId = "user1",
             recipientEmail = "test@test.com",
             amount = 100.0,
-            currency = "NGN"
+            currency = Currency.NGN
         )
 
         // When

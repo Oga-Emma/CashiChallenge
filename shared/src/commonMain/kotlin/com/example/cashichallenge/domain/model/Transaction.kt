@@ -1,5 +1,6 @@
 package com.example.cashichallenge.domain.model
 
+import com.example.cashichallenge.domain.model.request.Currency
 import kotlin.uuid.ExperimentalUuidApi
 import kotlinx.serialization.Serializable
 import kotlin.uuid.Uuid
@@ -11,7 +12,7 @@ data class Transaction (
     val senderId: String = "",
     val recipientEmail: String = "",
     val amount: Double = 0.0,
-    val currency: String = "",
+    val currency: Currency = Currency.USD,
     val timestamp: Long = 0L,
     val status: TransactionStatus = TransactionStatus.PENDING
 )

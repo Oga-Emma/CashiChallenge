@@ -13,6 +13,7 @@ composeMultiplatform = "1.9.0"
 easyRandomCore = "5.0.0"
 either = "2.0.2"
 junit = "4.13.2"
+koinTest = "4.1.1"
 kotestFrameworkEngine = "6.0.4"
 kotlin = "2.2.20"
 
@@ -56,6 +57,7 @@ androidx-lifecycle-runtimeCompose = { module = "org.jetbrains.androidx.lifecycle
 
 app-turbine = { module = "app.cash.turbine:turbine", version.ref = "turbineVersion" }
 easy-random-core = { module = "org.jeasy:easy-random-core", version.ref = "easyRandomCore" }
+koin-test = { module = "io.insert-koin:koin-test", version.ref = "koinTest" }
 orandja-either = { module = "net.orandja.kt:either", version.ref = "either" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 junit = { module = "junit:junit", version.ref = "junit" }
@@ -130,3 +132,5 @@ androidKotlinMultiplatformLibrary = { id = "com.android.kotlin.multiplatform.lib
 androidLint = { id = "com.android.lint", version.ref = "agp" }
 kotest = { id = "io.kotest", version.ref = "kotest" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+
+[bundles]

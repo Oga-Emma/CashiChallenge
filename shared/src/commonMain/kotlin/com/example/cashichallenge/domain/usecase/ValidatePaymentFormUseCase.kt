@@ -2,6 +2,7 @@ package com.example.cashichallenge.domain.usecase
 
 import com.example.cashichallenge.domain.common.SendPaymentFormState
 import com.example.cashichallenge.domain.model.dto.SendPaymentDto
+import com.example.cashichallenge.domain.model.request.Currency
 
 class ValidatePaymentFormUseCase {
     operator fun invoke(sendPaymentDto: SendPaymentDto): SendPaymentFormState {
@@ -30,7 +31,7 @@ class ValidatePaymentFormUseCase {
         return amount != null && amount > 0
     }
 
-    private fun validateCurrency(currency: String?): Boolean {
-        return currency.isNullOrBlank().not()
+    private fun validateCurrency(currency: Currency?): Boolean {
+        return currency != null
     }
 }

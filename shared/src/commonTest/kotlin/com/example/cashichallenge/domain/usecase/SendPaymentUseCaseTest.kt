@@ -8,6 +8,7 @@ import com.example.cashichallenge.domain.model.ErrorCodes
 import com.example.cashichallenge.domain.model.ErrorResponse
 import com.example.cashichallenge.domain.model.Transaction
 import com.example.cashichallenge.domain.model.dto.SendPaymentDto
+import com.example.cashichallenge.domain.model.request.Currency
 import com.example.cashichallenge.domain.model.request.InitiatePaymentRequest
 import dev.mokkery.answering.returns
 import dev.mokkery.every
@@ -42,7 +43,7 @@ class SendPaymentUseCaseTest {
     @Test
     fun `invoke returns success when payment is successful`() = runTest {
         // Given
-        val sendPaymentDto = SendPaymentDto("test@test.com", 100.0, "NGN")
+        val sendPaymentDto = SendPaymentDto("test@test.com", 100.0, Currency.NGN)
         val userId = "user123"
         val transaction = Transaction()
         val successResult: Either<ErrorResponse, Transaction> = Right(transaction)
@@ -62,7 +63,7 @@ class SendPaymentUseCaseTest {
    @Test
     fun `invoke returns error when payment fails`() = runTest {
         // Given
-        val sendPaymentDto = SendPaymentDto("test@test.com", 100.0, "NGN")
+        val sendPaymentDto = SendPaymentDto("test@test.com", 100.0, Currency.NGN)
         val userId = "user123"
         val appError = ErrorResponse(message = "Insufficient funds", code = ErrorCodes.UNKNOWN_ERROR)
         val errorResult: Either<ErrorResponse, Transaction> = Left(appError)

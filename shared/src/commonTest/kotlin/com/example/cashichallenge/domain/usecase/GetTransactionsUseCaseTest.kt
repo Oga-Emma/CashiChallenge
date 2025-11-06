@@ -4,6 +4,7 @@ import com.example.cashichallenge.data.local.Cache
 import com.example.cashichallenge.data.local.MockCache
 import com.example.cashichallenge.data.repository.MockTransactionDataSource
 import com.example.cashichallenge.domain.model.Transaction
+import com.example.cashichallenge.domain.model.request.Currency
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
@@ -31,7 +32,7 @@ class GetTransactionsUseCaseTest {
             senderId = cache.getUserId(),
             recipientEmail = "test@mail.com",
             amount = 200.0,
-            currency = "NGN",
+            currency = Currency.NGN,
             timestamp = 1761641948
         )
 

@@ -47,6 +47,7 @@ import com.example.cashichallenge.R
 import com.example.cashichallenge.core.util.TestTags
 import com.example.cashichallenge.coreui.OutlineTextFieldWithState
 import com.example.cashichallenge.domain.model.dto.SendPaymentDto
+import com.example.cashichallenge.domain.model.request.Currency
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -98,7 +99,7 @@ fun SendPaymentForm(
     var recipientState by remember { mutableStateOf("") }
     var amountState by remember { mutableStateOf("") }
 
-    val options = listOf("USD", "EUR", "GBP", "JPY", "CHF", "CAD", "AUD", "NZD")
+    val options = Currency.entries
     var expanded by remember { mutableStateOf(false) }
     var currencyState by remember { mutableStateOf(options[0]) }
 
@@ -141,7 +142,7 @@ fun SendPaymentForm(
                 modifier = Modifier.menuAnchor(type = MenuAnchorType.PrimaryNotEditable, enabled = true).fillMaxWidth(),
                 label = stringResource(R.string.label_currency),
                 error = state.formState.currencyError,
-                value = currencyState,
+                value = currencyState.name,
                 trailingIcon = {
                     ExposedDropdownMenuDefaults.TrailingIcon(
                         expanded = expanded
@@ -165,7 +166,7 @@ fun SendPaymentForm(
                             expanded = false
                         },
                         text = {
-                            Text(text = selectionOption)
+                            Text(text = selectionOption.name)
                         }
                     )
                 }

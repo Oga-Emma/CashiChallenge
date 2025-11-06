@@ -52,21 +52,13 @@ kotlin {
             implementation(libs.orandja.either)
         }
         commonTest.dependencies {
-//
-//            implementation(kotlin("test-junit5"))
-
-//            implementation(libs.ktor.client.mock)
-//            implementation(libs.kotlin.test)
-            implementation("org.jetbrains.kotlin:kotlin-test:2.2.20")
+            implementation(libs.kotlin.test)
             implementation(libs.kotlinx.coroutines.test)
-            implementation("io.insert-koin:koin-test:4.0.0")
+            implementation(libs.koin.test)
             implementation(libs.kotest.framework.engine)
             implementation(libs.kotest.assertions.core)
 
             implementation(libs.ktor.client.mock)
-        }
-        jvmTest.dependencies {
-//            implementation(libs.kotest.runner.junit5)
         }
         androidUnitTest.dependencies {
             implementation(libs.kotest.runner.junit5)

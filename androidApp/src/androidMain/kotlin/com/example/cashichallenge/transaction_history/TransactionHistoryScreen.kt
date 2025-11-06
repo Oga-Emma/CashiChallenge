@@ -43,6 +43,7 @@ import com.example.cashichallenge.coreui.ErrorState
 import com.example.cashichallenge.core.model.UiDataState
 import com.example.cashichallenge.domain.model.Transaction
 import com.example.cashichallenge.domain.model.readableName
+import com.example.cashichallenge.domain.model.request.Currency
 import com.example.cashichallenge.util.formatCurrency
 import com.example.cashichallenge.util.getDateTime
 import java.text.SimpleDateFormat
@@ -185,7 +186,7 @@ fun TransactionListItem(
         }
         Column {
             Text(
-                formatCurrency(transaction.amount, transaction.currency)
+                formatCurrency(transaction.amount, transaction.currency.name)
             )
             Text(
                 text = getDateTime(transaction.timestamp) ?: "N/A",
@@ -228,7 +229,7 @@ private fun PreviewTransactionsList() {
                 senderId = "1234",
                 recipientEmail = "test@mail.com",
                 amount = 200.0,
-                currency = "NGN",
+                currency = Currency.NGN,
                 timestamp = 1761641948
             )
         },

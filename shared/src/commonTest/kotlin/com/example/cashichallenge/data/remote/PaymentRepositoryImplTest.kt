@@ -4,6 +4,7 @@ import com.example.cashichallenge.data.repository.TransactionDataSource
 import com.example.cashichallenge.domain.model.ErrorCodes
 import com.example.cashichallenge.domain.model.Transaction
 import com.example.cashichallenge.domain.model.reponse.ApiResponse
+import com.example.cashichallenge.domain.model.request.Currency
 import com.example.cashichallenge.domain.model.request.InitiatePaymentRequest
 import dev.mokkery.answering.returns
 import dev.mokkery.answering.throws
@@ -34,7 +35,7 @@ class PaymentRepositoryImplTest {
     @Test
     fun `initiatePayment returns Right and saves transaction on API success`() = runTest {
         // Given
-        val request = InitiatePaymentRequest("sender1", "rec@mail.com", 100.0, "NGN")
+        val request = InitiatePaymentRequest("sender1", "rec@mail.com", 100.0, Currency.NGN)
         val transaction = Transaction()
         val successResponse = ApiResponse<Transaction?>(success = true, data = transaction, message = "Success")
 
@@ -57,7 +58,7 @@ class PaymentRepositoryImplTest {
      @Test
      fun `initiatePayment returns Left on API failure`() = runTest {
          // Given
-         val request = InitiatePaymentRequest("sender1", "rec@mail.com", 100.0, "NGN")
+         val request = InitiatePaymentRequest("sender1", "rec@mail.com", 100.0, Currency.NGN)
          val errorResponse =
              ApiResponse<Transaction?>(success = false, message = "Some server error")
 
@@ -78,7 +79,7 @@ class PaymentRepositoryImplTest {
     @Test
      fun `initiatePayment returns Left when API throws exception`() = runTest {
          // Given
-         val request = InitiatePaymentRequest("sender1", "rec@mail.com", 100.0, "NGN")
+         val request = InitiatePaymentRequest("sender1", "rec@mail.com", 100.0, Currency.NGN)
          val exception = RuntimeException("Network error")
 
         everySuspend { paymentApi.sendPayment(request) } throws exception

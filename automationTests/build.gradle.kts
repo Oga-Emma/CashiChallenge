@@ -1,22 +1,6 @@
 plugins {
     alias(libs.plugins.kotlinJvm)
 }
-/*
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-}
-kotlin {
-    compilerOptions {
-        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11
-    }
-
-    dependencies {
-
-    }
-}
-*/
-
 
 group = "app.example.appiumtest"
 version = "1.0-SNAPSHOT"
@@ -38,8 +22,6 @@ dependencies {
     testImplementation("io.cucumber:cucumber-java:7.16.1")
     testImplementation("io.cucumber:cucumber-junit:7.16.1")
     testImplementation("org.junit.vintage:junit-vintage-engine:6.0.0")
-
-//    implementation("io.qameta.allure:allure-cucumber6-jvm:2.30.0")
 
     testImplementation(kotlin("test"))
 }

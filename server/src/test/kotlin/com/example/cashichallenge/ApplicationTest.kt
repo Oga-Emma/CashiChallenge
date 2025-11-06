@@ -2,6 +2,7 @@ package com.example.cashichallenge
 
 import com.example.cashichallenge.domain.model.Transaction
 import com.example.cashichallenge.domain.model.reponse.ApiResponse
+import com.example.cashichallenge.domain.model.request.Currency
 import com.example.cashichallenge.domain.model.request.InitiatePaymentRequest
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.post
@@ -36,7 +37,7 @@ class ApplicationTest {
                 senderId = "123",
                 recipientEmail = "test@example.com",
                 amount = -100.0, // Invalid amount
-                currency = "NGN"
+                currency = Currency.NGN
             ))
         }
 
@@ -66,7 +67,7 @@ class ApplicationTest {
                 senderId = "123",
                 recipientEmail = "test@example.com",
                 amount = 100.0,
-                currency = "NGN"
+                currency = Currency.NGN
             ))
         }
 

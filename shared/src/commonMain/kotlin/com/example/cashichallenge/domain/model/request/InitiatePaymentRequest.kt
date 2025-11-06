@@ -7,5 +7,9 @@ data class InitiatePaymentRequest(
     val senderId: String,
     val recipientEmail: String,
     val amount: Double,
-    val currency: String,
+    val currency: Currency,
 )
+
+enum class Currency {
+    USD, EUR, GBP, JPY, CHF, CAD, AUD, NZD, NGN
+}

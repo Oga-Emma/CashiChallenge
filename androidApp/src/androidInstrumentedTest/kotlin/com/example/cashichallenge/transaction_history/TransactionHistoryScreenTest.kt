@@ -8,6 +8,7 @@ import com.example.cashichallenge.MainActivity
 import com.example.cashichallenge.core.util.TestTags
 import com.example.cashichallenge.core.model.UiDataState
 import com.example.cashichallenge.domain.model.Transaction
+import com.example.cashichallenge.domain.model.request.Currency
 import org.junit.Rule
 import org.junit.Test
 
@@ -110,7 +111,7 @@ class TransactionHistoryScreenTest {
                     senderId = "1123",
                     recipientEmail = "test@mail.com",
                     amount = 200.0,
-                    currency = "NGN",
+                    currency = Currency.NGN,
                     timestamp = 1761641948
                 )
             )

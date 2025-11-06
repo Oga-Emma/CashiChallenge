@@ -1,6 +1,7 @@
 package com.example.cashichallenge.data.mapper
 
 import com.example.cashichallenge.domain.model.dto.SendPaymentDto
+import com.example.cashichallenge.domain.model.request.Currency
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -14,7 +15,7 @@ class SendPaymentRequestMapperTest {
         val sendPaymentDto = SendPaymentDto(
             recipientEmail = "test@example.com",
             amount = 250.0,
-            currency = "USD"
+            currency = Currency.USD
         )
 
         // When

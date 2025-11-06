@@ -1,6 +1,7 @@
 package com.example.cashichallenge.domain.usecase
 
 import com.example.cashichallenge.domain.model.dto.SendPaymentDto
+import com.example.cashichallenge.domain.model.request.Currency
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.BeforeTest
@@ -20,7 +21,7 @@ class ValidatePaymentFormUseCaseTest {
         val validDto = SendPaymentDto(
             recipientEmail = "test@example.com",
             amount = 100.0,
-            currency = "NGN"
+            currency = Currency.NGN
         )
 
         // When
@@ -38,7 +39,7 @@ class ValidatePaymentFormUseCaseTest {
         val invalidDto = SendPaymentDto(
             recipientEmail = "invalid-email",
             amount = 100.0,
-            currency = "NGN"
+            currency = Currency.NGN
         )
 
         // When
@@ -56,7 +57,7 @@ class ValidatePaymentFormUseCaseTest {
         val invalidDto = SendPaymentDto(
             recipientEmail = "test@example.com",
             amount = 0.0,
-            currency = "NGN"
+            currency = Currency.NGN
         )
 
         // When
@@ -74,7 +75,7 @@ class ValidatePaymentFormUseCaseTest {
         val invalidDto = SendPaymentDto(
             recipientEmail = "test@example.com",
             amount = 100.0,
-            currency = ""
+            currency = null
         )
 
         // When
